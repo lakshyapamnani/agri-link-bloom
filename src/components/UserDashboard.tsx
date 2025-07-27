@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import ProductCard from "./ProductCard";
+import AddProductForm from "./AddProductForm";
 import { 
   Search, 
   Filter, 
@@ -16,12 +17,26 @@ import {
   Package
 } from "lucide-react";
 
+interface Product {
+  id: string;
+  name: string;
+  price: number;
+  unit: string;
+  image: string;
+  description: string;
+  farmer: string;
+  location: string;
+  rating: number;
+  isExpressDelivery: boolean;
+  inStock: number;
+}
+
 interface UserDashboardProps {
   userType: 'farmer' | 'consumer';
 }
 
-// Mock data
-const mockProducts = [
+// Initial mock data
+const initialProducts: Product[] = [
   {
     id: '1',
     name: 'Fresh Tomatoes',
@@ -78,10 +93,22 @@ const mockProducts = [
 
 const UserDashboard = ({ userType }: UserDashboardProps) => {
   const [searchTerm, setSearchTerm] = useState('');
+  const [products, setProducts] = useState<Product[]>(initialProducts);
+  const [isAddProductOpen, setIsAddProductOpen] = useState(false);
 
-  const filteredProducts = mockProducts.filter(product =>
+  const filteredProducts = products.filter(product =>
     product.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const handleAddProduct = (newProductData: Omit<Product, 'id' | 'rating'>) => {
+    const newProduct: Product = {
+      ...newProductData,
+      id: Date.now().toString(),
+      rating: 4.5 + Math.random() * 0.5 // Random rating between 4.5-5.0
+    };
+    
+    setProducts(prev => [newProduct, ...prev]);
+  };
 
   if (userType === 'farmer') {
     return (
@@ -93,7 +120,10 @@ const UserDashboard = ({ userType }: UserDashboardProps) => {
               <h1 className="text-3xl font-bold text-foreground">Farmer Dashboard</h1>
               <p className="text-muted-foreground">Manage your products and track your sales</p>
             </div>
-            <Button className="btn-hero">
+            <Button 
+              className="btn-hero"
+              onClick={() => setIsAddProductOpen(true)}
+            >
               <Plus className="h-4 w-4 mr-2" />
               Add New Product
             </Button>
@@ -118,7 +148,7 @@ const UserDashboard = ({ userType }: UserDashboardProps) => {
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-sm text-muted-foreground">Active Products</p>
-                    <p className="text-2xl font-bold text-accent">8</p>
+                    <p className="text-2xl font-bold text-accent">{products.length}</p>
                   </div>
                   <Package className="h-8 w-8 text-accent" />
                 </div>
@@ -202,11 +232,18 @@ const UserDashboard = ({ userType }: UserDashboardProps) => {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {filteredProducts.slice(0, 4).map(product => (
+              {filteredProducts.map(product => (
                 <ProductCard key={product.id} product={product} userType="farmer" />
               ))}
             </div>
           </div>
+
+          {/* Add Product Form */}
+          <AddProductForm 
+            isOpen={isAddProductOpen}
+            onClose={() => setIsAddProductOpen(false)}
+            onAddProduct={handleAddProduct}
+          />
         </div>
       </div>
     );
