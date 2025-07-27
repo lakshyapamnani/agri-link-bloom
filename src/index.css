@@ -2,41 +2,68 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+/* Agri-Link Design System - Fresh, organic, modern agricultural platform
 All colors MUST be HSL.
 */
 
 @layer base {
   :root {
+    /* Base colors - Clean and fresh */
     --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --foreground: 155 25% 15%;
 
+    /* Card system - Soft, organic feel */
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 155 25% 15%;
 
+    /* Popover components */
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 155 25% 15%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Primary - Fresh agricultural green */
+    --primary: 142 71% 45%;
+    --primary-foreground: 0 0% 100%;
+    --primary-glow: 142 71% 55%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Secondary - Earth tone warmth */
+    --secondary: 35 25% 95%;
+    --secondary-foreground: 155 25% 15%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    /* Muted tones - Natural and soft */
+    --muted: 150 10% 95%;
+    --muted-foreground: 155 15% 45%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    /* Accent - Warm organic orange */
+    --accent: 25 85% 60%;
+    --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    /* Status colors */
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --success: 142 71% 45%;
+    --success-foreground: 0 0% 100%;
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 100%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    /* UI elements */
+    --border: 150 20% 90%;
+    --input: 150 20% 96%;
+    --ring: 142 71% 45%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
+
+    /* Gradients for beautiful effects */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
+    --gradient-organic: linear-gradient(135deg, hsl(var(--accent)), hsl(var(--primary)));
+    --gradient-fresh: linear-gradient(180deg, hsl(var(--background)), hsl(var(--muted)));
+
+    /* Shadows with organic feel */
+    --shadow-soft: 0 4px 16px hsl(var(--primary) / 0.1);
+    --shadow-card: 0 2px 8px hsl(var(--foreground) / 0.08);
+    --shadow-glow: 0 0 20px hsl(var(--primary-glow) / 0.3);
+
+    /* Transitions */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
     --sidebar-background: 0 0% 98%;
 
@@ -100,6 +127,47 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+}
+
+@layer components {
+  /* Product card styling with organic feel */
+  .product-card {
+    @apply bg-card rounded-xl border border-border shadow-[var(--shadow-card)] 
+           transition-all duration-300 hover:shadow-[var(--shadow-soft)] 
+           hover:scale-[1.02] cursor-pointer;
+  }
+
+  /* Hero button styling */
+  .btn-hero {
+    @apply bg-[var(--gradient-primary)] text-primary-foreground font-semibold 
+           px-6 py-3 rounded-xl transition-all duration-300 
+           hover:shadow-[var(--shadow-glow)] hover:scale-105;
+  }
+
+  /* Organic badge styling */
+  .badge-organic {
+    @apply bg-accent text-accent-foreground px-3 py-1 rounded-full text-sm font-medium;
+  }
+
+  /* Fresh gradient backgrounds */
+  .bg-gradient-fresh {
+    background: var(--gradient-fresh);
+  }
+
+  .bg-gradient-organic {
+    background: var(--gradient-organic);
+  }
+
+  /* Smooth hover effects */
+  .hover-lift {
+    @apply transition-transform duration-300 hover:scale-105;
+  }
+
+  /* Twitter-like card transitions */
+  .tweet-card {
+    @apply bg-card border border-border rounded-xl p-4 transition-all duration-200 
+           hover:bg-muted/30 cursor-pointer;
   }
 }
