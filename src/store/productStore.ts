@@ -107,6 +107,11 @@ export const productStore = {
     broadcast();
   },
 
+  clearCart: () => {
+    globalCart = [];
+    broadcast();
+  },
+
   removeFromCart: (productId: string) => {
     globalCart = globalCart.filter(item => item.id !== productId);
     broadcast();
@@ -151,7 +156,8 @@ export const useProductStore = () => {
     addProduct: productStore.addProduct,
     addToCart: productStore.addToCart,
     removeFromCart: productStore.removeFromCart,
-    updateQuantity: productStore.updateQuantity
+    updateQuantity: productStore.updateQuantity,
+    clearCart: productStore.clearCart
   };
 };
 
