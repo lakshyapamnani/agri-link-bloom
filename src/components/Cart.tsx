@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -7,15 +8,98 @@ import {
   SheetTrigger,
   SheetFooter,
 } from "@/components/ui/sheet";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { useProductStore } from "@/store/productStore";
+import { useOrderStore } from "@/store/orderStore";
 import { ShoppingCart, Trash2, Plus, Minus } from "lucide-react";
 import { Badge } from "./ui/badge";
 import { ScrollArea } from "./ui/scroll-area";
 import { Separator } from "./ui/separator";
+import { useForm } from "react-hook-form";
+import { Input } from "./ui/input";
+import { Label } from "./ui/label";
+
+function CheckoutForm({ onCheckout }: { onCheckout: () => void }) {
+  const { cart, clearCart } = useProductStore();
+  const { addOrder } = useOrderStore();
+  const { register, handleSubmit, reset } = useForm();
+
+  const onSubmit = async (data: any) => {
+    const total = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
+    addOrder({
+      customer: data,
+      items: cart,
+      total,
+    });
+
+    // Web3Forms submission logic remains the same
+    const formData = new FormData();
+    formData.append("access_key", "YOUR_ACCESS_KEY_HERE"); // Placeholder
+    formData.append("subject", "New Order from Agri-Link");
+    const cartDetails = cart.map(item => `${item.name} (x${item.quantity}) - ₹${(item.price * item.quantity).toFixed(2)}`).join("<br>");
+    const htmlBody = `
+      <h2>New Order</h2>
+      <p><strong>Name:</strong> ${data.name}</p>
+      <p><strong>Email:</strong> ${data.email}</p>
+      <p><strong>Address:</strong> ${data.address}</p>
+      <h3>Order Details:</h3>
+      ${cartDetails}
+      <br>
+      <strong>Total: ₹${total.toFixed(2)}</strong>
+    `;
+    formData.append("from_name", "Agri-Link Order");
+    formData.append("message", htmlBody);
+
+    try {
+      const res = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: formData,
+      });
+      if (res.ok) {
+        alert("Order placed successfully!");
+        clearCart();
+        reset();
+        onCheckout();
+      } else {
+        alert("There was an error placing your order. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      alert("There was an error placing your order. Please try again.");
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+      <div>
+        <Label>Name</Label>
+        <Input {...register("name", { required: true })} placeholder="Your Name" />
+      </div>
+      <div>
+        <Label>Email</Label>
+        <Input {...register("email", { required: true })} type="email" placeholder="Your Email" />
+      </div>
+      <div>
+        <Label>Address</Label>
+        <Input {...register("address", { required: true })} placeholder="Your Address" />
+      </div>
+      <Button type="submit" className="w-full btn-hero">
+        Place Order
+      </Button>
+    </form>
+  );
+}
 
 export function Cart() {
   const { cart, removeFromCart, updateQuantity } = useProductStore();
   const total = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
+  const [isCheckoutOpen, setCheckoutOpen] = useState(false);
 
   return (
     <Sheet>
@@ -96,9 +180,17 @@ export function Cart() {
                   <span>Total</span>
                   <span>₹{total.toFixed(2)}</span>
                 </div>
-                <Button className="w-full btn-hero">
-                  Proceed to Checkout
-                </Button>
+                <Dialog open={isCheckoutOpen} onOpenChange={setCheckoutOpen}>
+                  <DialogTrigger asChild>
+                    <Button className="w-full btn-hero">Proceed to Checkout</Button>
+                  </DialogTrigger>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>Checkout</DialogTitle>
+                    </DialogHeader>
+                    <CheckoutForm onCheckout={() => setCheckoutOpen(false)} />
+                  </DialogContent>
+                </Dialog>
               </div>
             </SheetFooter>
           </>

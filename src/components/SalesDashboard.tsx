@@ -1,39 +1,13 @@
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-
-const initialOrders = [
-  {
-    id: "ORDER-8934",
-    customer: "Shreya Sharma",
-    date: "2023-10-26",
-    total: 250.0,
-    status: "Pending",
-    items: [
-      { name: "Fresh Tomatoes", quantity: 2, unit: "kg" },
-      { name: "Organic Spinach", quantity: 1, unit: "bunch" },
-    ],
-  },
-  {
-    id: "ORDER-8935",
-    customer: "Rohan Verma",
-    date: "2023-10-25",
-    total: 180.5,
-    status: "Completed",
-    items: [{ name: "Green Capsicum", quantity: 3, unit: "kg" }],
-  },
-];
+import { useOrderStore } from "@/store/orderStore";
 
 export function SalesDashboard() {
-  const [orders, setOrders] = useState(initialOrders);
+  const { orders, updateOrderStatus } = useOrderStore();
 
   const handleMarkAsCompleted = (orderId: string) => {
-    setOrders((prevOrders) =>
-      prevOrders.map((order) =>
-        order.id === orderId ? { ...order, status: "Completed" } : order
-      )
-    );
+    updateOrderStatus(orderId, "Completed");
   };
 
   return (
@@ -52,10 +26,16 @@ export function SalesDashboard() {
             </CardHeader>
             <CardContent>
               <p>
-                <strong>Customer:</strong> {order.customer}
+                <strong>Customer:</strong> {order.customer.name}
               </p>
               <p>
-                <strong>Date:</strong> {order.date}
+                <strong>Email:</strong> {order.customer.email}
+              </p>
+              <p>
+                <strong>Address:</strong> {order.customer.address}
+              </p>
+              <p>
+                <strong>Date:</strong> {new Date(order.date).toLocaleDateString()}
               </p>
               <p>
                 <strong>Total:</strong> ₹{order.total.toFixed(2)}
