@@ -18,6 +18,7 @@ import {
   MessageCircle,
   Package
 } from "lucide-react";
+import AIAssistant from "./AIAssistant";
 
 interface UserDashboardProps {
   userType: 'farmer' | 'consumer';
@@ -26,6 +27,7 @@ interface UserDashboardProps {
 const UserDashboard = ({ userType }: UserDashboardProps) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [isAddProductOpen, setIsAddProductOpen] = useState(false);
+  const [isAIAssistantOpen, setIsAIAssistantOpen] = useState(false);
   const { products, addProduct, addToCart } = useProductStore();
 
   const filteredProducts = products.filter(product =>
@@ -122,7 +124,7 @@ const UserDashboard = ({ userType }: UserDashboardProps) => {
                 <MessageCircle className="h-12 w-12 text-accent mx-auto mb-4 group-hover:scale-110 transition-transform" />
                 <h3 className="font-semibold mb-2">AI Assistant</h3>
                 <p className="text-sm text-muted-foreground mb-4">Get pricing and market insights</p>
-                <Button variant="outline" className="w-full">Ask AI</Button>
+                <Button variant="outline" className="w-full" onClick={() => setIsAIAssistantOpen(true)}>Ask AI</Button>
               </CardContent>
             </Card>
 
@@ -170,6 +172,10 @@ const UserDashboard = ({ userType }: UserDashboardProps) => {
             onClose={() => setIsAddProductOpen(false)}
             onAddProduct={handleAddProduct}
           />
+
+          {isAIAssistantOpen && (
+            <AIAssistant onClose={() => setIsAIAssistantOpen(false)} />
+          )}
         </div>
       </div>
     );
