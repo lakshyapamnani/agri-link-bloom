@@ -2,20 +2,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Star, Clock, MapPin, Plus } from "lucide-react";
-
-interface Product {
-  id: string;
-  name: string;
-  price: number;
-  unit: string;
-  image: string;
-  description: string;
-  farmer: string;
-  location: string;
-  rating: number;
-  isExpressDelivery?: boolean;
-  inStock: number;
-}
+import type { Product } from "@/store/productStore";
 
 interface ProductCardProps {
   product: Product;

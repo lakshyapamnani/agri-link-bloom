@@ -8,20 +8,7 @@ import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
 import { X, Upload, Sparkles } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-
-interface Product {
-  id: string;
-  name: string;
-  price: number;
-  unit: string;
-  image: string;
-  description: string;
-  farmer: string;
-  location: string;
-  rating: number;
-  isExpressDelivery: boolean;
-  inStock: number;
-}
+import type { Product } from "@/store/productStore";
 
 interface AddProductFormProps {
   isOpen: boolean;
