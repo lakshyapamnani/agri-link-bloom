@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Menu, X, Leaf, User, ShoppingCart, MessageCircle, BarChart3 } from "lucide-react";
+import { useProductStore } from "@/store/productStore";
+import { Cart } from "./Cart";
 
 interface NavigationProps {
   userType: 'farmer' | 'consumer' | null;
@@ -10,6 +12,7 @@ interface NavigationProps {
 
 const Navigation = ({ userType, onUserTypeChange }: NavigationProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { cart } = useProductStore();
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
@@ -68,10 +71,7 @@ const Navigation = ({ userType, onUserTypeChange }: NavigationProps) => {
                   </>
                 ) : (
                   <>
-                    <Button variant="ghost" className="flex items-center space-x-2">
-                      <ShoppingCart className="h-4 w-4" />
-                      <span>Cart (0)</span>
-                    </Button>
+                    <Cart />
                   </>
                 )}
                 <Button variant="ghost" className="flex items-center space-x-2">
@@ -149,10 +149,7 @@ const Navigation = ({ userType, onUserTypeChange }: NavigationProps) => {
                       </Button>
                     </>
                   ) : (
-                    <Button variant="ghost" className="justify-start">
-                      <ShoppingCart className="h-4 w-4 mr-2" />
-                      Cart (0)
-                    </Button>
+                    <Cart />
                   )}
                   <Button variant="ghost" className="justify-start">
                     <User className="h-4 w-4 mr-2" />
