@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import ProductCard from "./ProductCard";
 import AddProductForm from "./AddProductForm";
 import { useProductStore } from "@/store/productStore";
+import { toast } from "@/components/ui/use-toast";
 import { 
   Search, 
   Filter, 
@@ -25,7 +26,7 @@ interface UserDashboardProps {
 const UserDashboard = ({ userType }: UserDashboardProps) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [isAddProductOpen, setIsAddProductOpen] = useState(false);
-  const { products, addProduct } = useProductStore();
+  const { products, addProduct, addToCart } = useProductStore();
 
   const filteredProducts = products.filter(product =>
     product.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -249,8 +250,11 @@ const UserDashboard = ({ userType }: UserDashboardProps) => {
                 product={product} 
                 userType="consumer"
                 onAddToCart={(product) => {
-                  console.log('Added to cart:', product);
-                  // Add to cart logic here
+                  addToCart(product);
+                  toast({
+                    title: "Added to cart",
+                    description: `${product.name} has been added to your cart.`,
+                  });
                 }}
               />
             ))}

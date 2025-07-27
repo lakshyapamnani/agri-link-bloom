@@ -14,6 +14,10 @@ interface Product {
   inStock: number;
 }
 
+export interface CartItem extends Product {
+  quantity: number;
+}
+
 // Initial products data
 const initialProducts: Product[] = [
   {
@@ -70,25 +74,57 @@ const initialProducts: Product[] = [
   }
 ];
 
-// Global product store
+// Global store
 let globalProducts: Product[] = [...initialProducts];
-let listeners: Array<(products: Product[]) => void> = [];
+let globalCart: CartItem[] = [];
+let listeners: Array<() => void> = [];
+
+const broadcast = () => {
+  listeners.forEach(listener => listener());
+};
 
 export const productStore = {
   getProducts: () => globalProducts,
+  getCart: () => globalCart,
   
   addProduct: (newProductData: Omit<Product, 'id' | 'rating'>) => {
     const newProduct: Product = {
       ...newProductData,
       id: Date.now().toString(),
-      rating: 4.5 + Math.random() * 0.5 // Random rating between 4.5-5.0
+      rating: 4.5 + Math.random() * 0.5
     };
-    
     globalProducts = [newProduct, ...globalProducts];
-    listeners.forEach(listener => listener(globalProducts));
+    broadcast();
+  },
+
+  addToCart: (product: Product) => {
+    const existingItem = globalCart.find(item => item.id === product.id);
+    if (existingItem) {
+      existingItem.quantity++;
+    } else {
+      globalCart.push({ ...product, quantity: 1 });
+    }
+    broadcast();
+  },
+
+  removeFromCart: (productId: string) => {
+    globalCart = globalCart.filter(item => item.id !== productId);
+    broadcast();
+  },
+
+  updateQuantity: (productId: string, quantity: number) => {
+    const item = globalCart.find(item => item.id === productId);
+    if (item) {
+      if (quantity > 0) {
+        item.quantity = quantity;
+      } else {
+        globalCart = globalCart.filter(item => item.id !== productId);
+      }
+    }
+    broadcast();
   },
   
-  subscribe: (listener: (products: Product[]) => void) => {
+  subscribe: (listener: () => void) => {
     listeners.push(listener);
     return () => {
       listeners = listeners.filter(l => l !== listener);
@@ -98,17 +134,24 @@ export const productStore = {
 
 export const useProductStore = () => {
   const [products, setProducts] = useState<Product[]>(globalProducts);
+  const [cart, setCart] = useState<CartItem[]>(globalCart);
   
-  // Subscribe to product updates
   useEffect(() => {
-    const unsubscribe = productStore.subscribe(setProducts);
-    // Clean up on unmount
+    const onStoreChange = () => {
+      setProducts([...productStore.getProducts()]);
+      setCart([...productStore.getCart()]);
+    };
+    const unsubscribe = productStore.subscribe(onStoreChange);
     return unsubscribe;
   }, []);
   
   return {
     products,
-    addProduct: productStore.addProduct
+    cart,
+    addProduct: productStore.addProduct,
+    addToCart: productStore.addToCart,
+    removeFromCart: productStore.removeFromCart,
+    updateQuantity: productStore.updateQuantity
   };
 };
 
