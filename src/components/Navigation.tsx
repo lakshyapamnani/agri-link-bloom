@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Menu, X, Leaf, User, ShoppingCart, MessageCircle, BarChart3 } from "lucide-react";
@@ -33,20 +34,24 @@ const Navigation = ({ userType, onUserTypeChange }: NavigationProps) => {
           <div className="hidden md:flex items-center space-x-6">
             {!userType ? (
               <>
-                <Button variant="ghost" className="text-muted-foreground hover:text-foreground">
-                  How it Works
-                </Button>
-                <Button variant="ghost" className="text-muted-foreground hover:text-foreground">
-                  About
-                </Button>
-                <Button 
-                  variant="outline" 
+                <Link to="/how-it-works">
+                  <Button variant="ghost" className="text-muted-foreground hover:text-foreground">
+                    How it Works
+                  </Button>
+                </Link>
+                <Link to="/about">
+                  <Button variant="ghost" className="text-muted-foreground hover:text-foreground">
+                    About
+                  </Button>
+                </Link>
+                <Button
+                  variant="outline"
                   onClick={() => onUserTypeChange('farmer')}
                   className="border-primary text-primary hover:bg-primary hover:text-primary-foreground"
                 >
                   I'm a Farmer
                 </Button>
-                <Button 
+                <Button
                   className="btn-hero"
                   onClick={() => onUserTypeChange('consumer')}
                 >
@@ -60,10 +65,12 @@ const Navigation = ({ userType, onUserTypeChange }: NavigationProps) => {
                 </Button>
                 {userType === 'farmer' ? (
                   <>
-                    <Button variant="ghost" className="flex items-center space-x-2">
-                      <BarChart3 className="h-4 w-4" />
-                      <span>Analytics</span>
-                    </Button>
+                    <Link to="/sales-dashboard">
+                      <Button variant="ghost" className="flex items-center space-x-2">
+                        <BarChart3 className="h-4 w-4" />
+                        <span>Sales Dashboard</span>
+                      </Button>
+                    </Link>
                     <Button variant="ghost" className="flex items-center space-x-2">
                       <MessageCircle className="h-4 w-4" />
                       <span>AI Assistant</span>
@@ -72,12 +79,14 @@ const Navigation = ({ userType, onUserTypeChange }: NavigationProps) => {
                 ) : (
                   <>
                     <Cart />
+                    <Link to="/settings">
+                      <Button variant="ghost" className="flex items-center space-x-2">
+                        <User className="h-4 w-4" />
+                        <span>Settings</span>
+                      </Button>
+                    </Link>
                   </>
                 )}
-                <Button variant="ghost" className="flex items-center space-x-2">
-                  <User className="h-4 w-4" />
-                  <span>Profile</span>
-                </Button>
                 <Button 
                   variant="outline" 
                   onClick={() => onUserTypeChange(null)}
@@ -106,12 +115,16 @@ const Navigation = ({ userType, onUserTypeChange }: NavigationProps) => {
             <div className="flex flex-col space-y-3">
               {!userType ? (
                 <>
-                  <Button variant="ghost" className="justify-start text-muted-foreground">
-                    How it Works
-                  </Button>
-                  <Button variant="ghost" className="justify-start text-muted-foreground">
-                    About
-                  </Button>
+                  <Link to="/how-it-works">
+                    <Button variant="ghost" className="justify-start text-muted-foreground">
+                      How it Works
+                    </Button>
+                  </Link>
+                  <Link to="/about">
+                    <Button variant="ghost" className="justify-start text-muted-foreground">
+                      About
+                    </Button>
+                  </Link>
                   <Button 
                     variant="outline" 
                     onClick={() => {
@@ -139,22 +152,28 @@ const Navigation = ({ userType, onUserTypeChange }: NavigationProps) => {
                   </Button>
                   {userType === 'farmer' ? (
                     <>
-                      <Button variant="ghost" className="justify-start">
-                        <BarChart3 className="h-4 w-4 mr-2" />
-                        Analytics
-                      </Button>
+                      <Link to="/sales-dashboard">
+                        <Button variant="ghost" className="justify-start">
+                          <BarChart3 className="h-4 w-4 mr-2" />
+                          Sales Dashboard
+                        </Button>
+                      </Link>
                       <Button variant="ghost" className="justify-start">
                         <MessageCircle className="h-4 w-4 mr-2" />
                         AI Assistant
                       </Button>
                     </>
                   ) : (
-                    <Cart />
+                    <>
+                      <Cart />
+                      <Link to="/settings">
+                        <Button variant="ghost" className="justify-start">
+                          <User className="h-4 w-4 mr-2" />
+                          Settings
+                        </Button>
+                      </Link>
+                    </>
                   )}
-                  <Button variant="ghost" className="justify-start">
-                    <User className="h-4 w-4 mr-2" />
-                    Profile
-                  </Button>
                   <Button 
                     variant="outline" 
                     onClick={() => {
