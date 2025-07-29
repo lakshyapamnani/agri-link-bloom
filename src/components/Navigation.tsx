@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Menu, X, Leaf, User, ShoppingCart, MessageCircle, BarChart3 } from "lucide-react";
+import { Menu, X, Leaf, User, ShoppingCart, MessageCircle, BarChart3, Settings as SettingsIcon } from "lucide-react";
 import { useProductStore } from "@/store/productStore";
 import { Cart } from "./Cart";
 
@@ -79,12 +79,6 @@ const Navigation = ({ userType, onUserTypeChange }: NavigationProps) => {
                 ) : (
                   <>
                     <Cart />
-                    <Link to="/settings">
-                      <Button variant="ghost" className="flex items-center space-x-2">
-                        <User className="h-4 w-4" />
-                        <span>Settings</span>
-                      </Button>
-                    </Link>
                   </>
                 )}
                 <Button 
@@ -96,6 +90,11 @@ const Navigation = ({ userType, onUserTypeChange }: NavigationProps) => {
                 </Button>
               </>
             )}
+             <Link to="/settings">
+                <Button variant="ghost" size="icon">
+                  <SettingsIcon className="h-5 w-5" />
+                </Button>
+              </Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -166,12 +165,6 @@ const Navigation = ({ userType, onUserTypeChange }: NavigationProps) => {
                   ) : (
                     <>
                       <Cart />
-                      <Link to="/settings">
-                        <Button variant="ghost" className="justify-start">
-                          <User className="h-4 w-4 mr-2" />
-                          Settings
-                        </Button>
-                      </Link>
                     </>
                   )}
                   <Button 
@@ -186,6 +179,12 @@ const Navigation = ({ userType, onUserTypeChange }: NavigationProps) => {
                   </Button>
                 </>
               )}
+               <Link to="/settings">
+                <Button variant="ghost" className="justify-start">
+                  <SettingsIcon className="h-4 w-4 mr-2" />
+                  Settings
+                </Button>
+              </Link>
             </div>
           </div>
         )}
