@@ -11,6 +11,8 @@ import { HowItWorks } from "./components/HowItWorks";
 import { About } from "./components/About";
 import LoginPage from "./components/LoginPage";
 import { ThemeProvider } from "./components/ThemeProvider";
+import FarmerPage from "./pages/Farmer";
+import CustomerPage from "./pages/Customer";
 
 const queryClient = new QueryClient();
 
@@ -28,6 +30,8 @@ const App = () => (
             <Route path="/settings" element={<Settings />} />
             <Route path="/how-it-works" element={<HowItWorks />} />
             <Route path="/about" element={<About />} />
+            <Route path="/farmer" element={<FarmerPage />} />
+            <Route path="/customer" element={<CustomerPage />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
