@@ -40,7 +40,7 @@ function CheckoutForm({ onCheckout }: { onCheckout: () => void }) {
 
     // Web3Forms submission logic remains the same
     const formData = new FormData();
-    formData.append("access_key", "YOUR_ACCESS_KEY_HERE"); // Placeholder
+    formData.append("access_key", "351f6006-d6a0-485e-970e-a86e1d47d3a8"); // Placeholder
     formData.append("subject", "New Order from Agri-Link");
     const cartDetails = cart.map(item => `${item.name} (x${item.quantity}) - ₹${(item.price * item.quantity).toFixed(2)}`).join("<br>");
     const htmlBody = `
