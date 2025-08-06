@@ -9,7 +9,6 @@ import { SalesDashboard } from "./components/SalesDashboard";
 import { Settings } from "./components/Settings";
 import { HowItWorks } from "./components/HowItWorks";
 import { About } from "./components/About";
-import LoginPage from "./components/LoginPage";
 import { ThemeProvider } from "./components/ThemeProvider";
 
 const queryClient = new QueryClient();
@@ -23,7 +22,6 @@ const App = () => (
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Index />} />
-            <Route path="/login" element={<LoginPage />} />
             <Route path="/sales-dashboard" element={<SalesDashboard />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/how-it-works" element={<HowItWorks />} />
