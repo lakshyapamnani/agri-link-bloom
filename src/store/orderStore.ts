@@ -14,7 +14,29 @@ export interface Order {
   status: "Pending" | "Completed";
 }
 
-let globalOrders: Order[] = [];
+const STORAGE_KEY = "agrilink_orders";
+
+function loadOrdersFromStorage(): Order[] {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw) as Order[];
+    if (!Array.isArray(parsed)) return [];
+    return parsed;
+  } catch {
+    return [];
+  }
+}
+
+function saveOrdersToStorage(orders: Order[]) {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(orders));
+  } catch {
+    // ignore storage errors (quota, privacy mode, etc.)
+  }
+}
+
+let globalOrders: Order[] = loadOrdersFromStorage();
 let listeners: Array<() => void> = [];
 
 const broadcast = () => {
@@ -32,6 +54,7 @@ export const orderStore = {
       status: "Pending",
     };
     globalOrders = [newOrder, ...globalOrders];
+    saveOrdersToStorage(globalOrders);
     broadcast();
   },
 
@@ -39,6 +62,7 @@ export const orderStore = {
     const order = globalOrders.find((o) => o.id === orderId);
     if (order) {
       order.status = status;
+      saveOrdersToStorage(globalOrders);
       broadcast();
     }
   },

@@ -13,6 +13,13 @@ export function SalesDashboard() {
   return (
     <div className="container mx-auto p-6">
       <h1 className="text-3xl font-bold mb-6">Sales Dashboard</h1>
+      {orders.length === 0 ? (
+        <Card>
+          <CardContent className="py-10 text-center text-muted-foreground">
+            No orders yet. Orders placed from the cart will appear here.
+          </CardContent>
+        </Card>
+      ) : (
       <div className="space-y-6">
         {orders.map((order) => (
           <Card key={order.id}>
@@ -62,6 +69,7 @@ export function SalesDashboard() {
           </Card>
         ))}
       </div>
+      )}
     </div>
   );
 }

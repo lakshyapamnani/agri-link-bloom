@@ -61,12 +61,55 @@ React.js	Node.js / Express.js	MySQL / Firebase	WebSockets / Firebase Realtime DB
 
 📦 Installation
 
+```bash
 git clone https://github.com/yourusername/agrilink.git
 cd agrilink
 npm install
-npm start
+```
 
-Make sure to configure your .env file with Firebase or MySQL credentials.
+## Environment Configuration
+
+Create a `.env` file in the project root with the following variables:
+
+```bash
+# Gemini AI API Configuration
+GOOGLE_API_KEY=your_gemini_api_key_here
+# or GEMINI_API_KEY=your_gemini_api_key_here
+
+# Default Gemini Model (optional)
+GEMINI_MODEL=gemini-1.5-flash-latest
+
+# Frontend API Base URL (optional)
+VITE_API_BASE_URL=http://localhost:3001
+
+# Database Configuration (if using MySQL)
+DB_HOST=localhost
+DB_USER=your_db_user
+DB_PASSWORD=your_db_password
+DB_DATABASE=your_db_name
+```
+
+## Running the Application
+
+1. Start the backend server:
+```bash
+npm run dev:server
+```
+
+2. In a separate terminal, start the frontend:
+```bash
+npm run dev
+```
+
+3. Open your browser and navigate to the URL shown in the terminal (usually `http://localhost:5173`)
+
+## Available AI Models
+
+The AI Assistant supports multiple Gemini models:
+- **Gemini 1.5 Flash (Fast)** - Quick responses, good for general queries
+- **Gemini 1.5 Pro (Advanced)** - More capable, better for complex tasks
+- **Gemini 1.0 Pro (Legacy)** - Stable older version
+- **Gemini Pro (Stable)** - Reliable production model
 
 
 ---

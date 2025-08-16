@@ -42,19 +42,16 @@ function CheckoutForm({ onCheckout }: { onCheckout: () => void }) {
     const formData = new FormData();
     formData.append("access_key", "351f6006-d6a0-485e-970e-a86e1d47d3a8"); // Placeholder
     formData.append("subject", "New Order from Agri-Link");
-    const cartDetails = cart.map(item => `${item.name} (x${item.quantity}) - ₹${(item.price * item.quantity).toFixed(2)}`).join("<br>");
-    const htmlBody = `
-      <h2>New Order</h2>
-      <p><strong>Name:</strong> ${data.name}</p>
-      <p><strong>Email:</strong> ${data.email}</p>
-      <p><strong>Address:</strong> ${data.address}</p>
-      <h3>Order Details:</h3>
-      ${cartDetails}
-      <br>
-      <strong>Total: ₹${total.toFixed(2)}</strong>
-    `;
+    const cartDetails = cart.map(item => `${item.name} (x${item.quantity}) - ₹${(item.price * item.quantity).toFixed(2)}`).join("\n");
+    const plainTextBody =
+      `New Order\n` +
+      `Name: ${data.name}\n` +
+      `Email: ${data.email}\n` +
+      `Address: ${data.address}\n` +
+      `Order Details:\n${cartDetails}\n` +
+      `Total: ₹${total.toFixed(2)}`;
     formData.append("from_name", "Agri-Link Order");
-    formData.append("message", htmlBody);
+    formData.append("message", plainTextBody);
 
     try {
       const res = await fetch("https://api.web3forms.com/submit", {

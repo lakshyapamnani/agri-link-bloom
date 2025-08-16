@@ -21,7 +21,7 @@ const Navigation = ({ userType, onUserTypeChange }: NavigationProps) => {
     <nav className="bg-card border-b border-border sticky top-0 z-50 backdrop-blur-md bg-card/80">
       <div className="container mx-auto px-4 py-3">
         <div className="flex items-center justify-between">
-          {/* Logo */}
+          
           <div className="flex items-center space-x-2 cursor-pointer" onClick={() => onUserTypeChange(null)}>
             <div className="bg-gradient-organic p-2 rounded-xl">
               <Leaf className="h-6 w-6 text-white" />
