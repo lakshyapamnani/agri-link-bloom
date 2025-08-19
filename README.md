@@ -82,12 +82,24 @@ GEMINI_MODEL=gemini-1.5-flash-latest
 # Frontend API Base URL (optional)
 VITE_API_BASE_URL=http://localhost:3001
 
-# Database Configuration (if using MySQL)
-DB_HOST=localhost
-DB_USER=your_db_user
-DB_PASSWORD=your_db_password
-DB_DATABASE=your_db_name
+# (MySQL removed) No DB envs required for backend
 ```
+
+### Firebase Web Config
+
+Create a `.env.local` file (not committed) for Firebase. Keys below are safe to expose in web apps.
+
+```
+VITE_FIREBASE_API_KEY=AIzaSyAhG_zIb52ooGo_zN3yPpZZgPgVwPEzQLM
+VITE_FIREBASE_AUTH_DOMAIN=fpfinal-477ae.firebaseapp.com
+VITE_FIREBASE_PROJECT_ID=fpfinal-477ae
+VITE_FIREBASE_STORAGE_BUCKET=fpfinal-477ae.firebasestorage.app
+VITE_FIREBASE_MESSAGING_SENDER_ID=1071654395217
+VITE_FIREBASE_APP_ID=1:1071654395217:web:00bf30a74e44b410c50770
+VITE_FIREBASE_MEASUREMENT_ID=G-FMMKZ9CW16
+```
+
+These map to the `src/lib/firebase.ts` config at runtime. If not set, the app falls back to the checked-in values.
 
 ## Running the Application
 
