@@ -15,7 +15,7 @@ export function HowItWorks() {
             <p>
               Explore a wide variety of fresh, organic produce directly from
               local farmers. Read about their farming practices and choose the
-              best for you.
+              best for youu.
             </p>
           </CardContent>
         </Card>
