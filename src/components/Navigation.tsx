@@ -2,9 +2,11 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Menu, X, Leaf, User, ShoppingCart, MessageCircle, BarChart3, Settings as SettingsIcon } from "lucide-react";
+import { Menu, X, Leaf, MessageCircle, BarChart3, Settings as SettingsIcon } from "lucide-react";
 import { useProductStore } from "@/store/productStore";
 import { Cart } from "./Cart";
+import { AuthDialog, LogoutButton } from "@/components/AuthDialog";
+import { useAuth } from "@/hooks/useAuth";
 
 interface NavigationProps {
   userType: 'farmer' | 'consumer' | null;
@@ -14,6 +16,7 @@ interface NavigationProps {
 const Navigation = ({ userType, onUserTypeChange }: NavigationProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { cart } = useProductStore();
+  const { user } = useAuth();
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
@@ -44,6 +47,7 @@ const Navigation = ({ userType, onUserTypeChange }: NavigationProps) => {
                     About
                   </Button>
                 </Link>
+                {!user ? <AuthDialog trigger={<Button variant="ghost">Login</Button>} /> : <LogoutButton />}
                 <Button
                   variant="outline"
                   onClick={() => onUserTypeChange('farmer')}
@@ -81,6 +85,7 @@ const Navigation = ({ userType, onUserTypeChange }: NavigationProps) => {
                     <Cart />
                   </>
                 )}
+                {!user ? <AuthDialog trigger={<Button variant="ghost">Login</Button>} /> : <LogoutButton />}
                 <Button 
                   variant="outline" 
                   onClick={() => onUserTypeChange(null)}
@@ -124,6 +129,7 @@ const Navigation = ({ userType, onUserTypeChange }: NavigationProps) => {
                       About
                     </Button>
                   </Link>
+                  {!user ? <AuthDialog trigger={<Button variant="ghost" className="justify-start">Login</Button>} /> : <LogoutButton />}
                   <Button 
                     variant="outline" 
                     onClick={() => {
@@ -167,6 +173,7 @@ const Navigation = ({ userType, onUserTypeChange }: NavigationProps) => {
                       <Cart />
                     </>
                   )}
+                  {!user ? <AuthDialog trigger={<Button variant="ghost" className="justify-start">Login</Button>} /> : <LogoutButton />}
                   <Button 
                     variant="outline" 
                     onClick={() => {
