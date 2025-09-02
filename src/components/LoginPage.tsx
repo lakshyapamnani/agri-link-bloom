@@ -19,6 +19,12 @@ const LoginPage = () => {
     // Placeholder for any future API call
     console.log('Form submitted', { email, password });
 
+    // Store user info in localStorage
+    localStorage.setItem("user", JSON.stringify({
+      username: email.split("@")[0],
+      email
+    }));
+
     toast({
       title: "Login Successful",
       description: `Welcome back!`,

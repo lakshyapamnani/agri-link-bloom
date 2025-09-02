@@ -78,7 +78,19 @@ const ProductCard = ({ product, onAddToCart, userType = 'consumer' }: ProductCar
         {userType === 'consumer' && (
           <Button 
             className="w-full btn-hero"
-            onClick={() => onAddToCart?.(product)}
+            onClick={async () => {
+              onAddToCart?.(product);
+              try {
+                await fetch("https://fpfinal-477ae-default-rtdb.firebaseio.com/cart.json", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({ ...product, addedAt: new Date().toISOString() })
+                });
+              } catch (e) {
+                // Optionally handle error
+                console.error("Failed to sync cart to Firebase", e);
+              }
+            }}
             disabled={product.inStock === 0}
           >
             <Plus className="h-4 w-4 mr-2" />
