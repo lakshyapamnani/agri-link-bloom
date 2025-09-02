@@ -36,14 +36,7 @@ export function About() {
             <p className="mt-2 font-semibold">Jane Doe</p>
             <p className="text-sm text-muted-foreground">Founder & CEO</p>
           </div>
-          <div className="flex flex-col items-center">
-            <Avatar className="h-24 w-24">
-              <AvatarImage src="https://github.com/shadcn.png" alt="Team Member" />
-              <AvatarFallback>JS</AvatarFallback>
-            </Avatar>
-            <p className="mt-2 font-semibold">John Smith</p>
-            <p className="text-sm text-muted-foreground">Head of Operations</p>
-          </div>
+         
         </div>
       </div>
     </div>
