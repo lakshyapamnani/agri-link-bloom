@@ -33,7 +33,7 @@ const Navigation = ({ userType, onUserTypeChange }: NavigationProps) => {
             <Badge className="badge-organic text-xs">Fresh</Badge>
           </div>
 
-          {/* Desktop Navigation */}
+          
           <div className="hidden md:flex items-center space-x-6">
             {!userType ? (
               <>
